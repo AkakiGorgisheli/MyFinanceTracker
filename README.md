@@ -1,0 +1,1 @@
+MyFinanceTracker is a simple console-based finance management application written in Kotlin. It allows users to track income and expenses, view all transactions, and calculate the current balance in real-time.
