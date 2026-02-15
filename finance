@@ -1,0 +1,70 @@
+fun main() {
+    data class Transaction(val description: String, val amount: Double)
+
+    val transactions = mutableListOf<Transaction>()
+
+    while (true) {
+        println("\n--- MyFinanceTracker ---")
+        if (transactions.isEmpty()) {
+            println("my balance is empty")
+        } else {
+            println("all transaction:")
+            transactions.forEachIndexed { index, t ->
+                val sign = if (t.amount >= 0) "+" else "-"
+                println("${index + 1}. ${t.description}: $sign${kotlin.math.abs(t.amount)}")
+            }
+        }
+
+        val balance = transactions.sumOf { it.amount }
+        println("whole balance: $balance\n")
+
+        println("choose option:")
+        println("1. add income")
+        println("2. add outcome")
+        println("3. delete")
+        println("4. exit")
+        print("add number: ")
+
+        when (readLine()?.trim()) {
+            "1" -> {
+                print("add description: ")
+                val desc = readLine()?.trim().orEmpty()
+                print("enter number: ")
+                val amount = readLine()?.toDoubleOrNull()
+                if (desc.isNotEmpty() && amount != null && amount > 0) {
+                    transactions.add(Transaction(desc, amount))
+                    println("income aded: $desc, +$amount")
+                } else {
+                    println("incorect info")
+                }
+            }
+            "2" -> {
+                print("add description: ")
+                val desc = readLine()?.trim().orEmpty()
+                print("enter number: ")
+                val amount = readLine()?.toDoubleOrNull()
+                if (desc.isNotEmpty() && amount != null && amount > 0) {
+                    transactions.add(Transaction(desc, -amount))
+                    println("outcome added: $desc, -$amount")
+                } else {
+                    println("incorrect info")
+                }
+            }
+            "3" -> {
+                print("enter number: ")
+                val num = readLine()?.toIntOrNull()
+                if (num != null && num in 1..transactions.size) {
+                    val removed = transactions.removeAt(num - 1)
+                    println("წაიშალა: ${removed.description}, ${if(removed.amount>=0) "+" else "-"}${kotlin.math.abs(removed.amount)}")
+                } else {
+                    println("incorrect number")
+                }
+            }
+            "4" -> {
+                println("exit...")
+                break
+            }
+            else -> println("cancel")
+        }
+    }
+}
